@@ -5,8 +5,7 @@
             <div class="row">
             {% for profile in profiles %}
                 <div class="col-md-5">
-                    <div class="icon" style="width: 270px; height: 270px; background-color:#824561; margin-left: 100px; margin-top: 20px;">
-                     <img src="{{ profile.prof_pic.url }}" class= "post" alt="Image" style="height: 100%; width:100%; object-fit: contain;">                                                       
+                    <div class="icon" style="width: 270px; height: 270px; background:url('{{ profile.prof_pic.url }}'); background-size: cover; margin-left: 100px; margin-top: 20px;">                                                                        
                     </div>                    
                 </div>
                 <div class="col-md-7" style="margin-top: 40px; padding-left: 40px;">
