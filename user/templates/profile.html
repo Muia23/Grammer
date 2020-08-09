@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+    {% block content %}
+    {{ block.super}}
+        <div class="container" style="border-left: solid  lightgrey 0.02em; margin-top: 30px;">
+            <div class="row">
+                <div class="col-md-5">
+                   <div class="icon" style="width: 270px; height: 270px; background-color:#824561; margin-left: 100px; margin-top: 20px;">
+                       <img="" alt='profile picture'>
+                       <p>picture </p>
+                   </div>                    
+                </div>
+                <div class="col-md-7" style="margin-top: 40px; padding-left: 40px;">
+                    <div class="container">
+                        <h2 style="display: inline-block;">username</h2>
+                        <p style="display: inline-block; padding-left: 50px;"><button> Edit profile</button></p>                  
+                    </div>
+                    <div class="container">
+                        <h5 style="display: inline-block; padding-left: 20px;"><span style="font-size: 25px;"><strong>1</strong></span> Posts</h5>
+                        <h5 style="display: inline-block; padding-left: 40px;"><span style="font-size: 25px;"><strong>1</strong></span> Followers</h5>
+                        <h5 style="display: inline-block; padding-left: 20px;"><span style="font-size: 25px;"><strong>1</strong></span> Following</h5>
+                    </div>
+                    <div class="container" style="padding-top:20px;">
+                        <h5>Bio:</h5>
+                        <div class="container">
+                            <p style="font-style:oblique;">'Say something about yourself-'</p>
+                        </div>
+                    </div>                    
+                </div>                
+            </div>
+            <br>
+            <hr>
+                <p>Feed</p>
+        </div>        
+    {% endblock %}

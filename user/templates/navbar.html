@@ -8,10 +8,10 @@
     </head>
     <body>
         <nav class="navbar-fluid">
-            <h2 style="text-align: center;">Grammer</h2>
+            <a href="{% url 'home' %}"><h2 style="text-align: center;">Grammer</h2></a>
         </nav>        
-        <div class="container" style="background-color: rgba(251, 208, 251,.2);">
-            <div class="row" >            
+        <div class="container" style="background-color: rgba(251, 208, 251,.5); margin-top: 5px;">
+            <div class="row">            
                 <div class="col-sm-8 col-md-8 col-lg-8">
                     <form class="form-inline d-flex justify-content-center md-form form-sm active-purple-2 mt-2" >
                         <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">
@@ -19,14 +19,15 @@
                     </form>
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg-4">
-                    <p style="padding-top: 9px; display: inline-block;">Home</p>
-                    <p style="padding-top: 9px; display: inline-block;">Profile</p>
+                    <a href="{% url 'home' %}"><p style="padding-top: 9px; display: inline-block; padding-left: 35%;">Home</p></a>
+                    <a href="{% url 'profile' %}"><p style="padding-top: 9px; display: inline-block; padding-left: 15%; ">Profile</p></a>
                 </div>
             </div>
         </div>
         <style>
             .navbar-fluid {
-                background-color: white;                
+                background-color: white;
+                border-bottom:solid lightgrey .01em;                
             }
             .active-purple-2 input.form-control[type=text]:focus:not([readonly]) {
               border-bottom: 1px solid #ce93d8;
