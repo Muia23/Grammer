@@ -32,4 +32,4 @@ def profile(request, id):
 @login_required(login_url='/accounts/login/')
 def editprofile(request, id):
     profiles = Profile.open_profile(id)
-    return render(request, 'edit-profile', {"profiles": profiles})
+    return render(request, 'edit-profile.html', {"profiles": profiles})
