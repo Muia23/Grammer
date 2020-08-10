@@ -28,3 +28,8 @@ def profile(request, id):
     profiles = Profile.open_profile(id)
     feeds = Post.get_feed(id)
     return render(request, 'profile.html', {"profiles": profiles , "feeds": feeds}) 
+
+@login_required(login_url='/accounts/login/')
+def editprofile(request, id):
+    profiles = Profile.open_profile(id)
+    return render(request, 'edit-profile', {"profiles": profiles})
