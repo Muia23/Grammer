@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^accounts/profile/', views.index, name='logged_in'),
     url(r'^new/post$', views.new_post, name='new-post'),
     url(r'^profile/(\d)/$', views.profile, name='profile'),
-    url(r'^profile/(\d)/edit/$', views.editprofile, name='editprofile'),
+    #url(r'^profile/(\d)/edit/$', views.editprofile, name='editprofile'),
     
 ]
 if settings.DEBUG:

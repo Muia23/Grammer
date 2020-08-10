@@ -23,7 +23,7 @@
                                     {% csrf_token %}
                         
                                     {% bootstrap_form picture %}
-                                    <input type="submit" class="btn btn-success btn-lg" value="Post">
+                                    <input type="submit" class="btn btn-success btn-lg" value="Change">
                                 </form>                                            
                             </div>    
                         </div>
@@ -41,10 +41,26 @@
                     </div>
                     <div class="container" style="padding-top:20px;">
                         <h5>Bio:</h5>
-                        <div class="container">
+                        <div class="container">                            
                             <p style="font-style:oblique;">{{profile.bio}}</p>
+                            <h5 style="text-align: right;" data-toggle="modal" data-target="#a{{profile.id}}">Edit</h5>
                         </div>
-                    </div>                    
+                    </div>
+                    <!-- Bio Modal -->
+                    <div class="modal fade" id="a{{profile.id}}" tabindex="-1" role="dialog" aria-labelledby="{{post.title}}" aria-hidden="true">
+                        <div class="modal-dialog modal-md modal-dialog-centered"  role="document">
+                            <div class="modal-content"> 
+                                <div class="modal-body">
+                                    <form action="{%url 'editprofile' profile.id.id %}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                    
+                                        {% bootstrap_form bio %}
+                                        <input type="submit" class="btn btn-success btn-lg" value="Change">
+                                    </form>                                            
+                                </div>    
+                            </div>
+                        </div>
+                    </div>                                    
                 </div>                
             {% endfor %}
             </div>

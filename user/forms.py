@@ -13,3 +13,8 @@ class NewProfilePictureForm(forms.ModelForm):
         exclude = ['id','bio']
         widgets = {}
 
+class NewBioForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['id','prof_pic']
+        widgets = {}

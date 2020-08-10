@@ -5,8 +5,9 @@ from tinymce.models import HTMLField
 
 # Create your models here.
 class Profile(models.Model):
-    id = models.OneToOneField(User,primary_key=True,on_delete=models.CASCADE)
-    prof_pic = models.ImageField(upload_to = 'profile/')    
+    user = models.ForeignKey(User,on_delete=models.CASCADE)    
+    prof_pic = models.ImageField(upload_to = 'profile/')  
+    username = models.CharField(max_length= 60)
     bio = models.TextField( blank=True)
 
     def __str__(self):
@@ -17,14 +18,14 @@ class Profile(models.Model):
             
     @classmethod
     def open_profile(cls, id):        
-        profile = cls.objects.filter(id = id)
+        profile = cls.objects.filter(user = id)
         return profile
 
 
 class Post(models.Model):    
     image_name = models.CharField(max_length= 60)
     caption = HTMLField(blank= True)
-    post_date = models.DateTimeField(auto_now_add=True)
+    post_date = models.DateTimeField(auto_now_add=True)    
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     upload_image = models.ImageField(upload_to = 'upload/')
 
