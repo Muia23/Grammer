@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
-from .forms import NewPostForm, NewProfilePictureForm, NewBioForm
+from .forms import NewPostForm, NewProfileForm, NewProfilePictureForm, NewBioForm
 from .models import Post,User, Profile
 
 # Create your views here.
@@ -23,6 +23,22 @@ def new_post(request):
     else:
         form = NewPostForm()
     return render(request, 'new_post.html', {"form":form})
+
+#view function to create user profile
+@login_required(login_url='/accounts/login/')
+def create_profile(request):
+    current_user = request.user
+    if request.method == 'POST':
+        createform = NewProfileForm(request.POST, request.FILES)
+        if createform.is_valid():
+            profile = createform.save(commit=False)
+            profile.user =  current_user
+            profile.save()
+        return redirect('home')
+    else:
+        createform = NewProfileForm()
+    return render(request, 'create_profile.html', {"createform": createform})
+
 
 def profile(request, id):
     profiles = Profile.open_profile(id)

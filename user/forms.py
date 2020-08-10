@@ -7,6 +7,16 @@ class NewPostForm(forms.ModelForm):
         exclude = ['user','pub_date']
         widgets = {}
 
+class NewProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user']
+        widgets = {}
+
+
+
+
+
 class NewProfilePictureForm(forms.ModelForm):
     class Meta:
         model = Profile
