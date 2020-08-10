@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import NewPostForm
-from .models import Post
+from .models import Post,User, Profile
 
 # Create your views here.
 
@@ -12,7 +12,7 @@ def index(request):
 
 @login_required(login_url='/accounts/login/')
 def new_post(request):
-    current_user = request.User
+    current_user = request.user
     if request.method == 'POST':
         form = NewPostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -23,8 +23,8 @@ def new_post(request):
     else:
         form = NewPostForm()
     return render(request, 'new_post.html', {"form":form})
-    
-#def profile(request, id):
-#    profiles = User.open_profile(id)
-#    feeds = Post.get_feed(id)
-#    return render(request, 'profile.html', {"profiles": profiles , "feeds": feeds})
+
+def profile(request, id):
+    profiles = Profile.open_profile(id)
+    feeds = Post.get_feed(id)
+    return render(request, 'profile.html', {"profiles": profiles , "feeds": feeds}) 

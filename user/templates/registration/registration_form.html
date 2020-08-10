@@ -3,8 +3,9 @@
 <div class="container">
     <div class="row">
         <!-- Empty div-->
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
+        <div class="col-sm-2 col-md-6" style="background: url(https://images.unsplash.com/photo-1567005263627-cf72f785f398?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60) ; background-size: cover;">
+        </div>
+        <div class="col-sm-8 col-md-6">
             {% if forms.errors %}
                 <p> Some information Might be Incorrect</p>
             {% endif %}
@@ -13,7 +14,6 @@
                     <h3 class="text-centre">Sign Up</h3>
                 </div>
                 <div class="panel-body">
-
                     <form action="/accounts/register/" method="post">
                         {% csrf_token %}
                         {% bootstrap_form form %}
@@ -22,14 +22,13 @@
                         </div>
 
                         <input type="hidden" name="next" value="{{next}}">
-                    </form>
-
+                    </form>                    
+                </div>
+                <div class="panel-footer">
+                    <p>You have an account already. Click <span><a href="/accounts/login"> Log in</a></span></p>
                 </div>
             </div>
         </div>
-
-        <!-- Empty div -->
-        <div class="col-md-4"></div>
     </div>
 </div>
 
