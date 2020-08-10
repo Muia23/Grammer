@@ -1,15 +1,36 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
     {% block content %}
     {{ block.super}}
+    {{form.media}}        
         <div class="container" style="border-left: solid  lightgrey 0.02em; margin-top: 30px; margin-top: 20vh;">            
             {% for profile in profiles %}
             <a href="{% url 'profile' profile.id.id %}">Back</a>
             <div class="row">                            
-                <div class="col-md-5">
-                    <div class="icon" style="width: 270px; height: 270px; background:url('{{ profile.prof_pic.url }}'); background-size: cover; margin-left: 100px; margin-top: 20px; border-radius: 50%;">                                                                        
-                    </div>                    
+                <div class="col-md-6">
+                    <div class="col-md-5">
+                        <div class="icon" style="width: 400px; height: 400px; background:url('{{ profile.prof_pic.url }}'); background-size: cover; margin-left: 100px; margin-top: 20px; border-radius: 50%;">
+                            <h5 class="pic-edit" data-toggle="modal" data-target="#{{profile.id}}">Edit</h5>                        
+                        </div>                    
+                    </div>                
                 </div>
-                <div class="col-md-7" style="margin-top: 40px; padding-left: 40px;">
+                <!-- Profile Picture Modal -->
+                <div class="modal fade" id="{{profile.id}}" tabindex="-1" role="dialog" aria-labelledby="{{post.title}}" aria-hidden="true">
+                    <div class="modal-dialog modal-sm modal-dialog-centered"  role="document">
+                        <div class="modal-content"> 
+                            <div class="modal-body" style="height: 200px;">
+                                <form action="{%url 'editprofile' profile.id.id %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                        
+                                    {% bootstrap_form picture %}
+                                    <input type="submit" class="btn btn-success btn-lg" value="Post">
+                                </form>                                            
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6" style="margin-top: 40px; padding-left: 40px;">
                     <div class="container">
                         <h2 style="display: inline-block;">{{profile.id}}</h2>                        
                     </div>
@@ -27,5 +48,16 @@
                 </div>                
             {% endfor %}
             </div>
-        </div>        
+        </div>
+        <style>
+            .pic-edit {
+                background-color: azure;
+                text-align: center;
+                position: absolute;
+                width: 290px;
+                margin-left: 45px; 
+                margin-top: 45vh; 
+                padding: 15px 0;
+            }
+        </style>        
     {% endblock %}

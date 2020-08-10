@@ -12,3 +12,4 @@ class NewProfilePictureForm(forms.ModelForm):
         model = Profile
         exclude = ['id','bio']
         widgets = {}
+
