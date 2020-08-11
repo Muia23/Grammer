@@ -23,6 +23,13 @@ class Profile(models.Model):
         profile = get_profile.order_by('-up_date').first()
         return profile
 
+class comments(models.Model):        
+    profile = models.ForeignKey(User,on_delete=models.CASCADE)
+    comment = models.TextField()    
+
+    def __str__(self):
+        return self.comment
+
 
 class Post(models.Model):    
     image_name = models.CharField(max_length= 60)
@@ -30,6 +37,7 @@ class Post(models.Model):
     post_date = models.DateTimeField(auto_now_add=True)    
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     upload_image = models.ImageField(upload_to = 'upload/')
+    comments = models.ManyToManyField(comments)    
 
     def __str__(self):
         return self.image_name
@@ -54,12 +62,6 @@ class Post(models.Model):
     def get_feed(cls, id):
         posts = cls.objects.filter( user= id)
         return posts
-
-class Comments(models.Model):    
-    comment = models.TextField()
-
-    def __str__(self):
-        return self.comment
 
 
 
