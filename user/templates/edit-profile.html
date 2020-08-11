@@ -5,21 +5,21 @@
     {{form.media}}        
         <div class="container" style="border-left: solid  lightgrey 0.02em; margin-top: 30px; margin-top: 20vh;">            
             {% for profile in profiles %}
-            <a href="{% url 'profile' profile.id.id %}">Back</a>
+            <a href="{% url 'profile' profile.id %}">Back</a>
             <div class="row">                            
                 <div class="col-md-6">
                     <div class="col-md-5">
                         <div class="icon" style="width: 400px; height: 400px; background:url('{{ profile.prof_pic.url }}'); background-size: cover; margin-left: 100px; margin-top: 20px; border-radius: 50%;">
-                            <h5 class="pic-edit" data-toggle="modal" data-target="#{{profile.id}}">Edit</h5>                        
+                            <h5 class="pic-edit" data-toggle="modal" data-target="#b{{profile.id}}">Edit</h5>                        
                         </div>                    
                     </div>                
                 </div>
                 <!-- Profile Picture Modal -->
-                <div class="modal fade" id="{{profile.id}}" tabindex="-1" role="dialog" aria-labelledby="{{post.title}}" aria-hidden="true">
+                <div class="modal fade" id="b{{profile.id}}" tabindex="-1" role="dialog" aria-labelledby="{{post.title}}" aria-hidden="true">
                     <div class="modal-dialog modal-sm modal-dialog-centered"  role="document">
                         <div class="modal-content"> 
                             <div class="modal-body" style="height: 200px;">
-                                <form action="{%url 'editprofile' profile.id.id %}" method="post" enctype="multipart/form-data">
+                                <form action="{%url 'editprofile' profile.id %}" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                         
                                     {% bootstrap_form picture %}
@@ -51,7 +51,7 @@
                         <div class="modal-dialog modal-md modal-dialog-centered"  role="document">
                             <div class="modal-content"> 
                                 <div class="modal-body">
-                                    <form action="{%url 'editprofile' profile.id.id %}" method="post" enctype="multipart/form-data">
+                                    <form action="{%url 'editprofile' profile.id %}" method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
                                     
                                         {% bootstrap_form bio %}

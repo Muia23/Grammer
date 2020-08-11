@@ -9,6 +9,7 @@ class Profile(models.Model):
     prof_pic = models.ImageField(upload_to = 'profile/')  
     username = models.CharField(max_length= 60)
     bio = models.TextField( blank=True)
+    up_date = models.DateTimeField(auto_now_add=True)    
 
     def __str__(self):
         return self.bio
@@ -18,7 +19,8 @@ class Profile(models.Model):
             
     @classmethod
     def open_profile(cls, id):        
-        profile = cls.objects.filter(user = id)
+        get_profile = Profile.objects.filter(user = id)
+        profile = get_profile.order_by('-up_date')
         return profile
 
 
@@ -53,6 +55,11 @@ class Post(models.Model):
         posts = cls.objects.filter( user= id)
         return posts
 
+class Comments(models.Model):    
+    comment = models.TextField()
+
+    def __str__(self):
+        return self.comment
 
 
 

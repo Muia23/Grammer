@@ -2,16 +2,16 @@
     {% block content %}
     {{ block.super}}
         <div class="container" style="border-left: solid  lightgrey 0.02em; margin-top: 30px;">
-            <div class="row">
+            <div class="row" style="max-height: 10px; overflow: hidden;">
             {% for profile in profiles %}
                 <div class="col-md-5">
-                    <div class="icon" style="width: 270px; height: 270px; background:url('{{ profile.prof_pic.url }}'); background-size: cover; margin-left: 100px; margin-top: 20px; border-radius: 50%;">                                                                        
-                    </div>                    
+                    <div class="icon" style="width: 270px; height: 270px; background:url('{{ profile.prof_pic.url }}'); background-size: cover; margin-left: 100px; margin-top: 20px; border-radius: 50%;">
+                    </div>
                 </div>
                 <div class="col-md-7" style="margin-top: 40px; padding-left: 40px;">
                     <div class="container">
-                        <h2 style="display: inline-block;">{{profile.id}}</h2>
-                        <p style="display: inline-block; padding-left: 50px;"><a href="{% url 'editprofile' profile.user %}"></a><button> Edit profile</button></p></a>
+                        <h2 style="display: inline-block;">{{profile.username}}</h2>
+                        <p style="display: inline-block; padding-left: 50px;"><a href="{% url 'editprofile'%}"><button> Edit profile</button></p></a>
                     </div>
                     <div class="container">
                         <h5 style="display: inline-block; padding-left: 20px;"><span style="font-size: 25px;"><strong>1</strong></span> Posts</h5>
@@ -19,11 +19,11 @@
                         <h5 style="display: inline-block; padding-left: 20px;"><span style="font-size: 25px;"><strong>1</strong></span> Following</h5>
                     </div>
                     <div class="container" style="padding-top:20px;">
-                        <h5>Bio:</h5>
+                        <h5>Bio:</h5></div>
                         <div class="container">
                             <p style="font-style:oblique;">{{profile.bio}}</p>
                         </div>
-                    </div>                    
+                    </div>                
                 </div>                
             {% endfor %}
             </div>

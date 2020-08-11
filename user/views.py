@@ -1,14 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
-from .forms import NewPostForm, NewProfileForm, NewProfilePictureForm, NewBioForm
+from .forms import NewPostForm, EditProfileForm
 from .models import Post,User, Profile
 
 # Create your views here.
 
 @login_required(login_url='/accounts/login/')
 def index(request):
-    posts = Post.get_posts()    
-    return render(request, 'index.html', {"posts": posts})
+    posts = Post.get_posts() 
+    current_user = request.user
+    return render(request, 'index.html', {"posts": posts,"current_user": current_user })
 
 @login_required(login_url='/accounts/login/')
 def new_post(request):
@@ -24,20 +25,20 @@ def new_post(request):
         form = NewPostForm()
     return render(request, 'new_post.html', {"form":form})
 
-#view function to create user profile
+#view function to edit user profile
 @login_required(login_url='/accounts/login/')
-def create_profile(request):
+def edit_profile(request):    
     current_user = request.user
     if request.method == 'POST':
-        createform = NewProfileForm(request.POST, request.FILES)
-        if createform.is_valid():
-            profile = createform.save(commit=False)
+        editform = EditProfileForm(request.POST, request.FILES)
+        if editform.is_valid():
+            profile = editform.save(commit=False)
             profile.user =  current_user
             profile.save()
         return redirect('home')
     else:
-        createform = NewProfileForm()
-    return render(request, 'create_profile.html', {"createform": createform})
+        editform = EditProfileForm()
+    return render(request, 'create-profile.html', {"editform": editform})
 
 
 def profile(request, id):
@@ -45,6 +46,7 @@ def profile(request, id):
     feeds = Post.get_feed(id)
     return render(request, 'profile.html', {"profiles": profiles , "feeds": feeds}) 
 
+#function to edit pprofile picture and bio
 #@login_required(login_url='/accounts/login/')
 #def editprofile(request, id):        
 #    profiles = Profile.open_profile(id)
@@ -52,7 +54,7 @@ def profile(request, id):
 #    if request.method == 'POST':        
 #        picture = NewProfilePictureForm(request.POST, request.FILES)                
 #        if picture.is_valid():
-#            profile = picture.save()            
+#            profile = picture.save(commit=False)            
 #            profile.user = current_user
 #            profile.save()                            
 #        return redirect('home')        
@@ -60,10 +62,10 @@ def profile(request, id):
 #    elif request.method == 'POST':                
 #        bio = NewBioForm(request.POST, request.FILES)        
 #        if bio.is_valid():
-#            profile = bio.save()
+#            profile = bio.save(commit=False)
 #            profile.user = current_user
 #            profile.save()
-#        return redirect('home')    
+#        return redirect('home')        
 #
 #    else:
 #        picture = NewProfilePictureForm()
