@@ -20,7 +20,7 @@ class Profile(models.Model):
     @classmethod
     def open_profile(cls, id):        
         get_profile = Profile.objects.filter(user = id)
-        profile = get_profile.order_by('-up_date')
+        profile = get_profile.order_by('-up_date').first()
         return profile
 
 

@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^accounts/profile/', views.index, name='logged_in'),
     url(r'^new/post$', views.new_post, name='new-post'),
     url(r'^profile/(\d)/$', views.profile, name='profile'),
+    url(r'^profile/visit/(\d)/$', views.profilevisit, name='profilevisit'),
     url(r'^edit/profile/$', views.edit_profile, name='editprofile'),
     #url(r'^profile/edit/(\d)/$', views.editprofile, name='editprofile'),
     

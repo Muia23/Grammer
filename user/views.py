@@ -9,8 +9,10 @@ from .models import Post,User, Profile
 def index(request):
     posts = Post.get_posts() 
     current_user = request.user
-    return render(request, 'index.html', {"posts": posts,"current_user": current_user })
+    profile = Profile.open_profile(current_user)    
+    return render(request, 'index.html', {"posts": posts,"current_user": current_user, "profile": profile })
 
+#create a post
 @login_required(login_url='/accounts/login/')
 def new_post(request):
     current_user = request.user
@@ -19,6 +21,7 @@ def new_post(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.user = current_user
+            post.profile = Profile.username
             post.save()
         return redirect('home')
     else:
@@ -27,7 +30,7 @@ def new_post(request):
 
 #view function to edit user profile
 @login_required(login_url='/accounts/login/')
-def edit_profile(request):    
+def edit_profile(request):        
     current_user = request.user
     if request.method == 'POST':
         editform = EditProfileForm(request.POST, request.FILES)
@@ -40,11 +43,19 @@ def edit_profile(request):
         editform = EditProfileForm()
     return render(request, 'create-profile.html', {"editform": editform})
 
-
+#view your profile
 def profile(request, id):
-    profiles = Profile.open_profile(id)
+    current_user = request.user
+    profile = Profile.open_profile(id)
     feeds = Post.get_feed(id)
-    return render(request, 'profile.html', {"profiles": profiles , "feeds": feeds}) 
+    return render(request, 'profile.html', {"profile": profile ,"current_user": current_user, "feeds": feeds}) 
+
+#view other profile
+def profilevisit(request, id):
+    profile = Profile.open_profile(id)
+    feeds = Post.get_feed(id)
+    return render(request, 'visit-profile.html', {"profile": profile , "feeds": feeds}) 
+
 
 #function to edit pprofile picture and bio
 #@login_required(login_url='/accounts/login/')

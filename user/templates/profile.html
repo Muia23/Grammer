@@ -2,16 +2,17 @@
     {% block content %}
     {{ block.super}}
         <div class="container" style="border-left: solid  lightgrey 0.02em; margin-top: 30px;">
-            <div class="row" style="max-height: 10px; overflow: hidden;">
-            {% for profile in profiles %}
-                <div class="col-md-5">
+            <a href="{% url 'editprofile'%}"><p>Edit Profile</p></a>                                                                                                     
+            <div class="row">                
+                <div class="col-md-6">
                     <div class="icon" style="width: 270px; height: 270px; background:url('{{ profile.prof_pic.url }}'); background-size: cover; margin-left: 100px; margin-top: 20px; border-radius: 50%;">
                     </div>
                 </div>
-                <div class="col-md-7" style="margin-top: 40px; padding-left: 40px;">
-                    <div class="container">
-                        <h2 style="display: inline-block;">{{profile.username}}</h2>
-                        <p style="display: inline-block; padding-left: 50px;"><a href="{% url 'editprofile'%}"><button> Edit profile</button></p></a>
+                <div class="col-md-6" style="margin-top: 40px; padding-left: 40px;">
+                    <div class="container">                        
+                        <h2 style="display: inline-block;">{{profile.username}}</h2>                         
+                        <h5>{{current_user}}</h5>                         
+                        <p><a href=""><button>Edit profile</button></a></p>                        
                     </div>
                     <div class="container">
                         <h5 style="display: inline-block; padding-left: 20px;"><span style="font-size: 25px;"><strong>1</strong></span> Posts</h5>
@@ -24,8 +25,7 @@
                             <p style="font-style:oblique;">{{profile.bio}}</p>
                         </div>
                     </div>                
-                </div>                
-            {% endfor %}
+                </div>                            
             </div>
             <br>
             <hr>            
