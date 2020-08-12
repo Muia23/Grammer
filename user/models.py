@@ -12,23 +12,16 @@ class Profile(models.Model):
     up_date = models.DateTimeField(auto_now_add=True)    
 
     def __str__(self):
-        return self.bio
+        return self.username
 
     def save_user(self):    
         self.save()
-            
+    
     @classmethod
     def open_profile(cls, id):        
         get_profile = Profile.objects.filter(user = id)
         profile = get_profile.order_by('-up_date').first()
         return profile
-
-class comments(models.Model):        
-    profile = models.ForeignKey(User,on_delete=models.CASCADE)
-    comment = models.TextField()    
-
-    def __str__(self):
-        return self.comment
 
 
 class Post(models.Model):    
@@ -36,8 +29,7 @@ class Post(models.Model):
     caption = HTMLField(blank= True)
     post_date = models.DateTimeField(auto_now_add=True)    
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    upload_image = models.ImageField(upload_to = 'upload/')
-    comments = models.ManyToManyField(comments)    
+    upload_image = models.ImageField(upload_to = 'upload/')    
 
     def __str__(self):
         return self.image_name
@@ -63,13 +55,18 @@ class Post(models.Model):
         posts = cls.objects.filter( user= id)
         return posts
 
+class comments(models.Model):        
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    comment = models.TextField()    
+    post = models.ForeignKey(Post,on_delete=models.CASCADE )
 
+    def __str__(self):
+        return self.comment
 
-
-
-
-
-
+    @classmethod
+    def get_comments(cls):
+        comments = cls.objects.filter()
+        return comments
 
 
 

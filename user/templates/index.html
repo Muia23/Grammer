@@ -15,9 +15,9 @@
                     <div class="card" style="padding: 0 15px;">
                         <div class="row">
                             <div class="container-fluid" style="background-color: white; padding-top: 5px;">
-                                <a href="{% url 'profilevisit' post.user.id %}" ><img src=" {{ post.profile.prof_pic.url }}" class= "post" alt="Image" style="width: 40px; height: 40px; border-radius: 50%;  display: inline-block;"></a>
+                                <a href="{% url 'profilevisit' post.user.id %}" ><img src=" {{ post.user.prof_pic.url }}" class= "post" alt="Image" style="width: 40px; height: 40px; border-radius: 50%;  display: inline-block;"></a>
                                 <p style="display: inline-block;width: 10px;"></p>                                    
-                                <a href="{% url 'profilevisit' post.user.id %}" ><p style="display: inline-block;">{{post.user}}</p></a>
+                                <a href="{% url 'profilevisit' post.user.id %}" ><p style="display: inline-block;">{{post.user.username}}</p></a>
                                 <p style="display: inline-block;width: 10px;"></p>                                    
                             </div>
                             <div class="col-md-8" style="background-color: black; width: fit-content; max-height:450px;">                                
@@ -28,14 +28,23 @@
                                 <p> {{post.image_name}} </p>
                                 {% autoescape on %}
                                     <p>{{ post.caption| safe}}</p>
-                                {% endautoescape %}
-                                
+                                {% endautoescape %}                                
                                 <hr>
-                                <p style="text-align: center; display: inline-block;">Likes</p>
-                                <p style="text-align: center; display: inline-block;">comments</p>
+                                <p style="text-align: center; display: inline-block; padding-right: 40px;">1 Likes</p>
+                                <p style="text-align: center; display: inline-block;">{{commenters|length}} comments</p>
+                            
                                 <hr>
-                                <p>{{post.comments}}</p>
-                                <p>Recent comments</p>
+                                {% if commenters.post is post.image_name %}
+                                    <p>Recent comments</p>
+                                    {% for comment in commenters %}
+                                        <div class="card">                                                                                    
+                                            <p style="font-family: Verdana, Geneva, Tahoma, sans-serif;">{{comment.comment}}</p>
+                                            <p style="text-align: right;">-{{comment.profile}}</p>                                                                            
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p style="text-align: center; font-size: 18px; color: lightslategray; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">No comments yet</p>
+                                {% endif %}
                                 <br>
                                 <div class="comment" style="position: absolute; bottom: 1px;">
                                     <input type="text" placeholder="Write comment"><button>Post</button>

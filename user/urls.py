@@ -11,8 +11,8 @@ urlpatterns = [
     url(r'^new/post$', views.new_post, name='new-post'),
     url(r'^profile/(\d)/$', views.profile, name='profile'),
     url(r'^profile/visit/(\d)/$', views.profilevisit, name='profilevisit'),
-    url(r'^edit/profile/$', views.edit_profile, name='editprofile'),
-    #url(r'^profile/edit/(\d)/$', views.editprofile, name='editprofile'),
+    url(r'^create/profile/$', views.create_profile, name='createprofile'),
+    url(r'^profile/edit/(\d)/$', views.editprofile, name='editprofile'),
     
 ]
 if settings.DEBUG:

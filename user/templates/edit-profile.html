@@ -3,66 +3,60 @@
     {% block content %}
     {{ block.super}}
     {{form.media}}        
-        <div class="container" style="border-left: solid  lightgrey 0.02em; margin-top: 30px; margin-top: 20vh;">            
-            {% for profile in profiles %}
-            <a href="{% url 'profile' profile.id %}">Back</a>
+        <div class="container" style="border-left: solid  lightgrey 0.02em; margin-top: 30px; margin-top: 15vh;">                       
+            
             <div class="row">                            
-                <div class="col-md-6">
+                <div class="col-sm-11 col-md-6">
                     <div class="col-md-5">
-                        <div class="icon" style="width: 400px; height: 400px; background:url('{{ profile.prof_pic.url }}'); background-size: cover; margin-left: 100px; margin-top: 20px; border-radius: 50%;">
-                            <h5 class="pic-edit" data-toggle="modal" data-target="#b{{profile.id}}">Edit</h5>                        
+                        <div class="icon" style="width: 380px; height: 380px; background:url('{{ profiles.prof_pic.url }}'); background-size: cover; margin-left: 100px; margin-top: 20px; border-radius: 50%;">
+                            <button class="btn" data-toggle="modal" style="width: 100%; background-color: rgba(241, 217, 217,.5);" data-target="#a{{profiles.id}}">Edit</btn>                        
                         </div>                    
                     </div>                
                 </div>
                 <!-- Profile Picture Modal -->
-                <div class="modal fade" id="b{{profile.id}}" tabindex="-1" role="dialog" aria-labelledby="{{post.title}}" aria-hidden="true">
+                <div class="modal fade" id="a{{profiles.id}}" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
                     <div class="modal-dialog modal-sm modal-dialog-centered"  role="document">
                         <div class="modal-content"> 
                             <div class="modal-body" style="height: 200px;">
-                                <form action="{%url 'editprofile' profile.id %}" method="post" enctype="multipart/form-data">
+                                <form action="{%url 'editprofile' current_user.id %}" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
-                        
+                            
                                     {% bootstrap_form picture %}
                                     <input type="submit" class="btn btn-success btn-lg" value="Change">
-                                </form>                                            
+                                </form> 
                             </div>    
                         </div>
                     </div>
                 </div>
                 
-                <div class="col-md-6" style="margin-top: 40px; padding-left: 40px;">
+                <div class="col col-md-6" style="margin-top: 40px; padding-left: 40px;">
                     <div class="container">
-                        <h2 style="display: inline-block;">{{profile.id}}</h2>                        
-                    </div>
-                    <div class="container">
-                        <h5 style="display: inline-block; padding-left: 20px;"><span style="font-size: 25px;"><strong>1</strong></span> Posts</h5>
-                        <h5 style="display: inline-block; padding-left: 40px;"><span style="font-size: 25px;"><strong>1</strong></span> Followers</h5>
-                        <h5 style="display: inline-block; padding-left: 20px;"><span style="font-size: 25px;"><strong>1</strong></span> Following</h5>
-                    </div>
+                        <h2 style="display: inline-block;">{{profiles.user}}</h2>                        
+                    </div>                    
                     <div class="container" style="padding-top:20px;">
-                        <h5>Bio:</h5>
+                        <h5 style="display: inline-block;padding-right: 20vw;">Bio:</h5>
+                        <button class="btn btn-default" style="display: inline-block;" data-toggle="modal" data-target="#b{{profiles.id}}">Edit</button>
                         <div class="container">                            
-                            <p style="font-style:oblique;">{{profile.bio}}</p>
-                            <h5 style="text-align: right;" data-toggle="modal" data-target="#a{{profile.id}}">Edit</h5>
+                            <p style="font-style:oblique;">{{profiles.bio}}</p>
+                            
                         </div>
                     </div>
                     <!-- Bio Modal -->
-                    <div class="modal fade" id="a{{profile.id}}" tabindex="-1" role="dialog" aria-labelledby="{{post.title}}" aria-hidden="true">
+                    <div class="modal fade" id="b{{profiles.id}}" tabindex="-1" role="dialog" aria-labelledby="{{post.title}}" aria-hidden="true">
                         <div class="modal-dialog modal-md modal-dialog-centered"  role="document">
                             <div class="modal-content"> 
                                 <div class="modal-body">
-                                    <form action="{%url 'editprofile' profile.id %}" method="post" enctype="multipart/form-data">
+                                    <form action="{% url 'editprofile' current_user.id %}" method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
                                     
                                         {% bootstrap_form bio %}
                                         <input type="submit" class="btn btn-success btn-lg" value="Change">
-                                    </form>                                            
+                                    </form>
                                 </div>    
                             </div>
                         </div>
                     </div>                                    
-                </div>                
-            {% endfor %}
+                </div>                            
             </div>
         </div>
         <style>
@@ -77,3 +71,6 @@
             }
         </style>        
     {% endblock %}
+
+
+    <!--<a href="{% url 'profile' profile.id %}">Back</a>-->
