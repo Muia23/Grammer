@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^profile/visit/(\d)/$', views.profilevisit, name='profilevisit'),
     url(r'^create/profile/$', views.create_profile, name='createprofile'),
     url(r'^profile/edit/(\d)/$', views.editprofile, name='editprofile'),
+    url(r'^like/(\d)/$', views.likeview, name='like_post'),
     
 ]
 if settings.DEBUG:

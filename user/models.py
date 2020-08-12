@@ -8,7 +8,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)    
     prof_pic = models.ImageField(upload_to = 'profile/')  
     username = models.CharField(max_length= 60)
-    bio = models.TextField( blank=True)
+    bio = HTMLField(blank= True)
     up_date = models.DateTimeField(auto_now_add=True)    
 
     def __str__(self):
@@ -30,7 +30,7 @@ class Post(models.Model):
     post_date = models.DateTimeField(auto_now_add=True)    
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     upload_image = models.ImageField(upload_to = 'upload/')    
-
+    likes = models.ManyToManyField(User, related_name='blog_post')
     def __str__(self):
         return self.image_name
 
@@ -54,6 +54,10 @@ class Post(models.Model):
     def get_feed(cls, id):
         posts = cls.objects.filter( user= id)
         return posts
+
+    @classmethod
+    def total_likes(self):
+        return self.likes.count()
 
 class comments(models.Model):        
     profile = models.ForeignKey(Profile,on_delete=models.CASCADE)

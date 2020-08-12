@@ -13,12 +13,8 @@ class CreateProfileForm(forms.ModelForm):
         exclude = ['user']
         widgets = {}
 
-class EditProfilePicture(forms.ModelForm):
+class EditProfile(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['prof_pic']
+        fields = ['prof_pic','bio']
 
-class EditBio(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['bio']

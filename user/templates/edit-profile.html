@@ -12,23 +12,7 @@
                             <button class="btn" data-toggle="modal" style="width: 100%; background-color: rgba(241, 217, 217,.5);" data-target="#a{{profiles.id}}">Edit</btn>                        
                         </div>                    
                     </div>                
-                </div>
-                <!-- Profile Picture Modal -->
-                <div class="modal fade" id="a{{profiles.id}}" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
-                    <div class="modal-dialog modal-sm modal-dialog-centered"  role="document">
-                        <div class="modal-content"> 
-                            <div class="modal-body" style="height: 200px;">
-                                <form action="{%url 'editprofile' current_user.id %}" method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                            
-                                    {% bootstrap_form picture %}
-                                    <input type="submit" class="btn btn-success btn-lg" value="Change">
-                                </form> 
-                            </div>    
-                        </div>
-                    </div>
-                </div>
-                
+                </div>                                
                 <div class="col col-md-6" style="margin-top: 40px; padding-left: 40px;">
                     <div class="container">
                         <h2 style="display: inline-block;">{{profiles.user}}</h2>                        
@@ -37,26 +21,25 @@
                         <h5 style="display: inline-block;padding-right: 20vw;">Bio:</h5>
                         <button class="btn btn-default" style="display: inline-block;" data-toggle="modal" data-target="#b{{profiles.id}}">Edit</button>
                         <div class="container">                            
-                            <p style="font-style:oblique;">{{profiles.bio}}</p>
-                            
+                            <p style="font-style:oblique;">{{profiles.bio}}</p>                            
                         </div>
-                    </div>
-                    <!-- Bio Modal -->
-                    <div class="modal fade" id="b{{profiles.id}}" tabindex="-1" role="dialog" aria-labelledby="{{post.title}}" aria-hidden="true">
-                        <div class="modal-dialog modal-md modal-dialog-centered"  role="document">
-                            <div class="modal-content"> 
-                                <div class="modal-body">
-                                    <form action="{% url 'editprofile' current_user.id %}" method="post" enctype="multipart/form-data">
-                                        {% csrf_token %}
-                                    
-                                        {% bootstrap_form bio %}
-                                        <input type="submit" class="btn btn-success btn-lg" value="Change">
-                                    </form>
-                                </div>    
-                            </div>
-                        </div>
-                    </div>                                    
+                    </div>                    
                 </div>                            
+            </div>
+        </div>
+        <!-- Edit Profile Modal -->
+        <div class="modal fade" id="a{{profiles.id}}" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered"  role="document">
+                <div class="modal-content"> 
+                    <div class="modal-body" style="height: 200px;">
+                        <form action="{%url 'editprofile' current_user.id %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                    
+                            {% bootstrap_form editprofile %}
+                            <input type="submit" class="btn btn-success btn-lg" value="Change">
+                        </form> 
+                    </div>    
+                </div>
             </div>
         </div>
         <style>

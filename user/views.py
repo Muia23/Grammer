@@ -1,18 +1,28 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render,redirect
-from .forms import NewPostForm, CreateProfileForm, EditProfilePicture, EditBio
+from django.shortcuts import render,redirect, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .forms import NewPostForm, CreateProfileForm, EditProfile
 from .models import Post,User, Profile,comments
+
 
 # Create your views here.
 
 @login_required(login_url='/accounts/login/')
-def index(request):
-    posts = Post.get_posts()    
+def index(request):    
     commenters = comments.get_comments()
     current_user = request.user
     profile = Profile.open_profile(current_user)    
+    #thumbs_up = get_object_or_404(Post, id=self.kwargs['post.id'])
+    posts = Post.get_posts()   
+    #likes = Post.total_likes()
+    return render(request, 'index.html', {"posts": posts,"current_user": current_user, "profile": profile, "commenters": commenters}) #, "likes": likes 
 
-    return render(request, 'index.html', {"posts": posts,"current_user": current_user, "profile": profile, "commenters": commenters })
+def likeview(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post.likes.add(request.user)
+    return redirect('home')
+
 
 #create a post
 @login_required(login_url='/accounts/login/')
@@ -65,22 +75,13 @@ def editprofile(request,id):
     profiles = Profile.open_profile(id)
     current_user = request.user
     if request.method == 'POST':        
-        picture = EditProfilePicture(request.POST, request.FILES)                
-        if picture.is_valid():
-            profile = picture.save(commit=False)            
+        editprofile = EditProfile(request.POST, request.FILES)                
+        if editprofile.is_valid():
+            profile = editprofile.save(commit=False)            
             profile.user = current_user
             profile.save()                            
-        return redirect('home')        
-
-    if request.method == 'POST':                
-        bio = EditBio(request.POST, request.FILES)        
-        if bio.is_valid():
-            profile = bio.save(commit=False)
-            profile.user = current_user
-            profile.save()
-        return redirect('home')        
+        return HttpResponseRedirect(reverse('editprofile', args=[str(id)]))        
 
     else:
-        picture = EditProfilePicture()
-        bio = EditBio()
-    return render(request, 'edit-profile.html', {"profiles": profiles, "picture": picture, "bio": bio, "current_user": current_user})
+        editprofile = EditProfile()        
+    return render(request, 'edit-profile.html', {"profiles": profiles, "editprofile": editprofile, "current_user": current_user})
