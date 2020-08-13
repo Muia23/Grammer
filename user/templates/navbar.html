@@ -12,16 +12,17 @@
         </nav>        
         <div class="container" style="background-color: rgba(251, 208, 251,.5); margin-top: 5px;">
             <div class="row">            
-                <div class="col-sm-8 col-md-8 col-lg-8">
+                <div class="col-md-9">
                     <form class="form-inline d-flex justify-content-center md-form form-sm active-purple-2 mt-2" >
                         <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search" aria-label="Search">
-                        <i class="fas fa-search" aria-hidden="true"></i>
+                        <i class="fa fa-search" aria-hidden="true"></i>
                     </form>
                 </div>
-                <div class="col-sm-4 col-md-4 col-lg-4">
-                    <a href="{% url 'home' %}"><p style="padding-top: 3px; display: inline-block; padding-left: 35%;">Home</p></a>                    
-                    <a href="{% url 'new-post'%}">Create Post</a>
-                    <a href="/logout"><p style="padding-top: 3px; display: inline-block; padding-left: 35%;">Logout</p></a>                                        
+                <div class="col-md-3">
+                    <a href="{% url 'new-post'%}" style="display: inline-block; padding-left: 2vw; padding-right: 5vw; font-size: 27px; color: white;"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                    <a href="{% url 'home' %}"><p style="padding-top: 3px; display: inline-block; font-size: 27px;  color: white;"><i class="fa fa-home" aria-hidden="true"></i></p></a>                    
+                    <a href="/logout"><p style="padding-top: 3px; display: inline-block; font-size: 27px; margin-right: 10px;  color: white;">| <i class="fa fa-sign-out" aria-hidden="true"></i></p></a>                                        
+                                                            
                 </div>
             </div>
         </div>
