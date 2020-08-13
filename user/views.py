@@ -12,15 +12,24 @@ from .models import Post,User, Profile,comments
 def index(request):    
     commenters = comments.get_comments()
     current_user = request.user
-    profile = Profile.open_profile(current_user)    
-    #thumbs_up = get_object_or_404(Post, id=self.kwargs['post.id'])
-    posts = Post.get_posts()   
-    #likes = Post.total_likes()
-    return render(request, 'index.html', {"posts": posts,"current_user": current_user, "profile": profile, "commenters": commenters}) #, "likes": likes 
+    profile = Profile.open_profile(current_user) 
+    posts = Post.get_posts()    
+    is_liked = False          
+    for post in posts:            
+        if post.likes.filter(id = request.user.id).exists():
+            is_liked = True
 
-def likeview(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    post.likes.add(request.user)
+    return render(request, 'index.html', {"posts": posts,"current_user": current_user, "profile": profile, "commenters": commenters, "is_liked": is_liked })
+
+def likeview(request, id):
+    post= get_object_or_404(Post, id=request.POST.get('post_id'))
+    is_liked = False
+    if post.likes.filter(id = request.user.id).exists():
+        post.likes.remove(request.user)
+        is_liked = False
+    else:        
+        post.likes.add(request.user)
+        is_liked = True
     return redirect('home')
 
 

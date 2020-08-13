@@ -1,10 +1,30 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
     {% block content %}
-    {{ block.super}}
-    {{form.media}}        
+    {{ block.super}}    
+    {{form.media}}  
+        <nav class="navbar-fluid">
+            <h2 style="text-align: center;"><a href="{% url 'home' %}">Grammer</a></h2>
+        </nav>        
+        <div class="container mini-nav">
+            <div class="row" style="padding: 5px;">            
+                <div class="col-md-7">
+                    <form class="form-inline d-flex justify-content-center md-form form-sm active-purple-2 mt-2" >
+                        <input class="form-control form-control-sm mr-3 w-75" style="background: transparent;border: none;" type="text" placeholder="Search" aria-label="Search">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </form>
+                </div>
+                <div class="col-md-5" style="text-align: center;">                    
+                    <a href="{% url 'new-post'%}"  class="mininav-item" style="padding-right: 55px;"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                
+                    <a href="{% url 'home' %}" class="mininav-item" style="padding-right: 55px;"><i class="fa fa-home" aria-hidden="true"></i></a>                
+                
+                    <a href="/logout" class="mininav-item" >| <i class="fa fa-sign-out" aria-hidden="true"></i></a>                                        
+                </div>
+            </div>
+        </div>            
         <div class="container" style="border-left: solid  lightgrey 0.02em; margin-top: 30px; margin-top: 15vh;">                       
-            
+            <a href="{% url 'profile' current_user.id %}">Back</a>
             <div class="row">                            
                 <div class="col-sm-11 col-md-6">
                     <div class="col-md-5">
@@ -31,7 +51,7 @@
         <div class="modal fade" id="a{{profiles.id}}" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
             <div class="modal-dialog modal-sm modal-dialog-centered"  role="document">
                 <div class="modal-content"> 
-                    <div class="modal-body" style="height: 200px;">
+                    <div class="modal-body" style="height: 500px;">
                         <form action="{%url 'editprofile' current_user.id %}" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                     
@@ -51,7 +71,34 @@
                 margin-left: 45px; 
                 margin-top: 45vh; 
                 padding: 15px 0;
+            }            
+            .navbar-fluid {
+                background-color: white;
+                border-bottom:solid lightgrey .01em;                
             }
+            .active-purple-2 input.form-control[type=text]:focus:not([readonly]) {
+              border-bottom: 1px solid rgb(206, 147, 216);
+              box-shadow: 0 1px 0 0 #ce93d8;
+            }
+            .active-purple .fa, .active-purple-2 .fa {
+              color: #ce93d8;
+            }
+            .mini-nav {
+                background: rgba(206, 147, 216,.5);
+                margin-top: 5px;
+            }
+            .mininav-item {
+                display: inline-block;
+                font-size: 27px;
+                color: rgb(105, 101, 107);
+                font-family: 'Times New Roman', Times, serif;
+            }
+            .user-profile {
+                width: 40px; 
+                height: 40px; 
+                border-radius: 50%;  
+                display: inline-block;
+            }        
         </style>        
     {% endblock %}
 

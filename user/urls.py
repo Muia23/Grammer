@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^create/profile/$', views.create_profile, name='createprofile'),
     url(r'^profile/edit/(\d)/$', views.editprofile, name='editprofile'),
     url(r'^like/(\d)/$', views.likeview, name='like_post'),
+    #url(r'^comment/(\d)/$', views.write_comment, name='write-comment'),
     
 ]
 if settings.DEBUG:

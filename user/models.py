@@ -29,8 +29,9 @@ class Post(models.Model):
     caption = HTMLField(blank= True)
     post_date = models.DateTimeField(auto_now_add=True)    
     user = models.ForeignKey(User,on_delete=models.CASCADE)
+    profiles = models.ForeignKey(Profile,on_delete=models.CASCADE)
     upload_image = models.ImageField(upload_to = 'upload/')    
-    likes = models.ManyToManyField(User, related_name='blog_post')
+    likes = models.ManyToManyField(User, related_name='blog_post', blank=True)
     def __str__(self):
         return self.image_name
 

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
     {% block content %}
     {{ block.super}}
+    {% include "navbar.html" %}
         <div class="container" style="border-left: solid  lightgrey 0.02em; margin-top: 30px;">            
             <div class="row">
                 {% if profile %}                
