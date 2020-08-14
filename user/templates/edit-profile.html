@@ -4,7 +4,7 @@
     {{ block.super}}    
     {{form.media}}  
         <nav class="navbar-fluid">
-            <h2 style="text-align: center;"><a href="{% url 'home' %}">Grammer</a></h2>
+            <h2 class="heading"><a href="{% url 'home' %}" class="heading-link">Grammer</a></h2>
         </nav>        
         <div class="container mini-nav">
             <div class="row" style="padding: 5px;">            
@@ -38,8 +38,7 @@
                         <h2 style="display: inline-block;">{{profiles.user}}</h2>                        
                     </div>                    
                     <div class="container" style="padding-top:20px;">
-                        <h5 style="display: inline-block;padding-right: 20vw;">Bio:</h5>
-                        <button class="btn btn-default" style="display: inline-block;" data-toggle="modal" data-target="#b{{profiles.id}}">Edit</button>
+                        <h5 style="display: inline-block;padding-right: 20vw;">Bio:</h5>                        
                         <div class="container">                            
                             <p style="font-style:oblique;">{{profiles.bio}}</p>                            
                         </div>
@@ -98,7 +97,23 @@
                 height: 40px; 
                 border-radius: 50%;  
                 display: inline-block;
-            }        
+            } 
+            .heading {
+                text-align: center;
+                font-family: 'Lobster';                                                
+            }
+            .heading-link {
+                background-image: linear-gradient(to right, #de6161, #2657eb); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                background-image: -webkit-linear-gradient(to right, #A5FECB, #20BDFF, #5433FF);  /* Chrome 10-25, Safari 5.1-6 */
+                background-image: #5433FF;  /* fallback for old browsers */                
+                background-clip: text;                
+                text-decoration-color: transparent;
+                -webkit-background-clip: text;
+                -moz-background-clip: text;
+                -webkit-text-fill-color: transparent; 
+                -moz-text-fill-color: transparent;
+                -webkit-text-stroke: 0.01em black;                
+            }       
         </style>        
     {% endblock %}
 

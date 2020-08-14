@@ -74,9 +74,10 @@ def profile(request, id):
 
 #view other profile
 def profilevisit(request, id):
+    current_user = request.user
     profile = Profile.open_profile(id)
     feeds = Post.get_feed(id)
-    return render(request, 'visit-profile.html', {"profile": profile , "feeds": feeds}) 
+    return render(request, 'visit-profile.html', {"profile": profile ,"current_user": current_user ,"feeds": feeds}) 
 
 #function to edit user profile and bio
 @login_required(login_url='/accounts/login/')
