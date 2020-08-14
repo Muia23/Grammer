@@ -14,7 +14,7 @@ To get the entire program:
 4. Open http://127.0.0.1:8000/  on your browser
 
 ## Deployed link to Heroku
-    
+https://muia2.herokuapp.com/
 
 ## License info
 MIT License
