@@ -31,8 +31,9 @@
             <ul class= "container">
             {% for feed in feeds %}
                 <li style="display: inline-block;">                                                       
+                    <a href="{% url 'detail' feed.pk %}">
                     <div class="icon" style="width: 270px; height: 270px; background:url('{{ feed.upload_image.url }}'); background-size: cover; margin-left: 20px; margin-top: 20px;">                                                                        
-                    </div>                    
+                    </div></a>
                 </li> 
             {% endfor %}   
             </ul>                            

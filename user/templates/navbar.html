@@ -14,9 +14,9 @@
         <div class="container mini-nav">
             <div class="row" style="padding: 5px;">            
                 <div class="col-md-7">
-                    <form class="form-inline d-flex justify-content-center md-form form-sm active-purple-2 mt-2" >
-                        <input class="form-control form-control-sm mr-3 w-75" style="background: transparent;border: none;" type="text" placeholder="Search" aria-label="Search">
-                        <i class="fa fa-search" aria-hidden="true"></i>
+                    <form class="form-inline d-flex justify-content-center md-form form-sm active-purple-2 mt-2" action="{% url 'search_results' %}">
+                        <input class="form-control form-control-sm mr-3 w-75" style="background: transparent;border: none;" type="text" placeholder="Search" name="user">
+                        <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                     </form>
                 </div>
                 <div class="col-md-5" style="text-align: center;">                    
@@ -24,7 +24,11 @@
 
                     <a href="{% url 'home' %}" class="mininav-item" style="padding-right: 55px;"><i class="fa fa-home" aria-hidden="true"></i></a>
 
-                    <a href="{% url 'profile' current_user.id %}" class="mininav-item" ><img src=" {{ profile.prof_pic.url }}" class= "user-profile" alt="User profile picture"></a>                                                    
+                    {% if profile.prof_pic %}
+                        <a href="{% url 'profile' current_user.id %}" class="mininav-item" ><img src=" {{ profile.prof_pic.url }}" class= "user-profile" alt="User profile picture"></a>                                                    
+                    {% else %}
+                        <a href="{% url 'profile' current_user.id %}" class="mininav-item" ><img src="https://www.freepngimg.com/download/youtube/63841-profile-twitch-youtube-avatar-discord-free-download-image.png" class= "user-profile" alt="User profile picture"></a>                                                    
+                    {% endif %}
 
                     <a href="/logout" class="mininav-item" >| <i class="fa fa-sign-out" aria-hidden="true"></i></a>                                        
                 </div>

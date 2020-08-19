@@ -4,7 +4,7 @@ from .models import Post, Profile, comments
 class NewPostForm(forms.ModelForm):
     class Meta:
         model = Post
-        exclude = ['user','pub_date','profile']
+        fields = ['image_name','upload_image','caption']
         widgets = {}
 
 class CreateProfileForm(forms.ModelForm):

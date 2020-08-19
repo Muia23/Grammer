@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import NewPostForm, CreateProfileForm, EditProfile
+from .forms import NewPostForm, CreateProfileForm, EditProfile, WriteComment
 from .models import Post,User, Profile,comments
 
 
@@ -17,10 +17,58 @@ def index(request):
     is_liked = False          
     for post in posts:            
         if post.likes.filter(id = request.user.id).exists():
-            is_liked = True
+            is_liked = True        
+            return render(request, 'index.html', {"posts": posts,"current_user": current_user, "profile": profile, "commenters": commenters, "is_liked": is_liked })
 
-    return render(request, 'index.html', {"posts": posts,"current_user": current_user, "profile": profile, "commenters": commenters, "is_liked": is_liked })
+        else:
+            return render(request, 'index.html', {"posts": posts,"current_user": current_user, "profile": profile, "commenters": commenters, "is_liked": is_liked })
 
+#create a post
+@login_required(login_url='/accounts/login/')
+def new_post(request):
+    current_user = request.user
+    profile = Profile.open_profile(current_user) 
+    if request.method == 'POST':
+        form = NewPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = current_user    
+            post.profile = profile                    
+            #post.profiles = profile.username            
+            post.save()
+        return redirect('home')
+    else:
+        form = NewPostForm()
+    return render(request, 'new_post.html', {"form":form})
+
+
+#view post details
+@login_required(login_url='/accounts/login/')
+def view_post(request, id):
+    current_user = request.user
+    profile = Profile.open_profile(current_user.id)
+    commentss = comments.get_post_comment(id)
+    post = Post.get_post_details(id)
+    is_liked = False     
+    if post.likes.filter(id = request.user.id).exists():
+        is_liked = True    
+        
+    if request.method == 'POST':        
+        commentform = WriteComment(request.POST, request.FILES)                
+        if commentform.is_valid():
+            comment = commentform.save(commit=False)            
+            comment.profile = profile
+            comment.post = post
+            comment.save()                            
+        return HttpResponseRedirect(reverse('detail', args=[str(id)]))        
+
+    else:
+        commentform = WriteComment()
+
+    return render(request, 'detail.html', {"current_user": current_user,"post":post, "profile": profile ,"commentss": commentss, "is_liked": is_liked,"commentform":commentform })
+
+
+#like function
 def likeview(request, id):
     post= get_object_or_404(Post, id=request.POST.get('post_id'))
     is_liked = False
@@ -32,22 +80,6 @@ def likeview(request, id):
         is_liked = True
     return redirect('home')
 
-
-#create a post
-@login_required(login_url='/accounts/login/')
-def new_post(request):
-    current_user = request.user
-    if request.method == 'POST':
-        form = NewPostForm(request.POST, request.FILES)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.user = current_user
-            post.profile = Profile.username
-            post.save()
-        return redirect('home')
-    else:
-        form = NewPostForm()
-    return render(request, 'new_post.html', {"form":form})
 
 #view function to create user profile
 @login_required(login_url='/accounts/login/')
@@ -95,3 +127,17 @@ def editprofile(request,id):
     else:
         editprofile = EditProfile()        
     return render(request, 'edit-profile.html', {"profiles": profiles, "editprofile": editprofile, "current_user": current_user})
+
+def search_results(request):
+    current_user = request.user
+    profile = Profile.open_profile(current_user.id)
+    if 'user' in request.GET and request.GET["user"]:
+        search_term = request.GET.get("user")
+        searched_profile = Profile.search_by_name(search_term)
+        message = f"{search_term}"
+
+        return render(request, 'search.html',{"message":message, "searchs": searched_profile, "current_user":current_user,"profile": profile})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, "search.html",{"message":message, "current_user":current_user, "profile": profile})

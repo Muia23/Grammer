@@ -9,7 +9,7 @@ class Profile(models.Model):
     prof_pic = models.ImageField(upload_to = 'profile/')  
     username = models.CharField(max_length= 60)
     bio = HTMLField(blank= True)
-    up_date = models.DateTimeField(auto_now_add=True)    
+    up_date = models.DateTimeField(auto_now_add=True)        
 
     def __str__(self):
         return self.username
@@ -23,6 +23,11 @@ class Profile(models.Model):
         profile = get_profile.order_by('-up_date').first()
         return profile
 
+    @classmethod
+    def search_by_name(cls,search_term):        
+        get_profile = Profile.objects.filter(username__icontains=search_term)        
+        return get_profile
+
 
 class Post(models.Model):    
     image_name = models.CharField(max_length= 60)
@@ -31,7 +36,7 @@ class Post(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     profiles = models.ForeignKey(Profile,on_delete=models.CASCADE)
     upload_image = models.ImageField(upload_to = 'upload/')    
-    likes = models.ManyToManyField(User, related_name='blog_post', blank=True)
+    likes = models.ManyToManyField(User, related_name='blog_post', default=None,blank=True)
     def __str__(self):
         return self.image_name
 
@@ -50,6 +55,12 @@ class Post(models.Model):
     def get_posts(cls):
         posts = cls.objects.order_by('-post_date')
         return posts
+
+    @classmethod
+    def get_post_details(cls, id):
+        get_post = cls.objects.filter(id = id)
+        post = get_post.order_by('-post_date').first()
+        return post
 
     @classmethod
     def get_feed(cls, id):
@@ -73,5 +84,11 @@ class comments(models.Model):
         comments = cls.objects.filter()
         return comments
 
+    @classmethod
+    def get_post_comment(cls,id):
+        comment = cls.objects.filter(post =id)
+        return comment
 
-
+class Followers(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    followers = models.ManyToManyField(User, related_name='profile_followers', default=None,blank=True)
