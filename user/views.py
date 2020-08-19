@@ -33,8 +33,7 @@ def new_post(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.user = current_user    
-            post.profile = profile                    
-            #post.profiles = profile.username            
+            post.profiles = profile                                
             post.save()
         return redirect('home')
     else:
@@ -108,8 +107,13 @@ def profile(request, id):
 def profilevisit(request, id):
     current_user = request.user
     profile = Profile.open_profile(id)
-    feeds = Post.get_feed(id)
-    return render(request, 'visit-profile.html', {"profile": profile ,"current_user": current_user ,"feeds": feeds}) 
+    feeds = Post.get_feed(id)    
+    is_followed = False
+    if profile.followers.filter(id = current_user.id).exists():
+        is_followed = True
+        return render(request, 'visit-profile.html', {"profile": profile ,"current_user": current_user ,"feeds": feeds, "is_followed": is_followed})
+    else:
+        return render(request, 'visit-profile.html', {"profile": profile ,"current_user": current_user ,"feeds": feeds, "is_followed": is_followed}) 
 
 #function to edit user profile and bio
 @login_required(login_url='/accounts/login/')
@@ -127,6 +131,22 @@ def editprofile(request,id):
     else:
         editprofile = EditProfile()        
     return render(request, 'edit-profile.html', {"profiles": profiles, "editprofile": editprofile, "current_user": current_user})
+
+#follow function
+def followview(request, id):
+    profile= get_object_or_404(Profile, id=request.POST.get('profile_id'))    
+    myprofile = Profile.open_profile(request.user.id) 
+    is_followed = False
+    if profile.followers.filter(id = request.user.id).exists():        
+        profile.followers.remove(request.user)
+        myprofile.following.remove(profile.user.id)        
+        is_followed = False
+    else:        
+        profile.followers.add(request.user)
+        myprofile.following.add(profile.user.id)        
+        is_followed = True
+    return HttpResponseRedirect(reverse('profilevisit', args=[str(id)]))        
+
 
 def search_results(request):
     current_user = request.user

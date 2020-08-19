@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from tinymce.models import HTMLField
 
-
 # Create your models here.
 class Profile(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)    
@@ -10,6 +9,8 @@ class Profile(models.Model):
     username = models.CharField(max_length= 60)
     bio = HTMLField(blank= True)
     up_date = models.DateTimeField(auto_now_add=True)        
+    followers = models.ManyToManyField(User, related_name='profile_followers', default=None, blank=True)
+    following = models.ManyToManyField(User, related_name='profile_following', default=None, blank=True)
 
     def __str__(self):
         return self.username
@@ -28,13 +29,16 @@ class Profile(models.Model):
         get_profile = Profile.objects.filter(username__icontains=search_term)        
         return get_profile
 
+    @classmethod
+    def total_followers(self):
+       return self.followers.count()
 
 class Post(models.Model):    
     image_name = models.CharField(max_length= 60)
     caption = HTMLField(blank= True)
     post_date = models.DateTimeField(auto_now_add=True)    
     user = models.ForeignKey(User,on_delete=models.CASCADE)
-    profiles = models.ForeignKey(Profile,on_delete=models.CASCADE)
+    profiles = models.ForeignKey(Profile,on_delete=models.CASCADE, blank=True)
     upload_image = models.ImageField(upload_to = 'upload/')    
     likes = models.ManyToManyField(User, related_name='blog_post', default=None,blank=True)
     def __str__(self):
@@ -89,6 +93,3 @@ class comments(models.Model):
         comment = cls.objects.filter(post =id)
         return comment
 
-class Followers(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    followers = models.ManyToManyField(User, related_name='profile_followers', default=None,blank=True)
